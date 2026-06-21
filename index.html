@@ -296,6 +296,7 @@ const ACORN = `<svg class="pin" viewBox="0 0 64 72" xmlns="http://www.w3.org/200
 const DLICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>`;
 
 function dlUrl(p){
+  if (p.url && p.url.trim()) return p.url.trim();
   return `https://github.com/${CONFIG.githubUser}/${CONFIG.githubRepo}/releases/download/${p.tag}/${p.file}`;
 }
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
