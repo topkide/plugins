@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도토리마을 · 플러그인 모음</title>
+<meta name="description" content="도토리마을에서 제작한 마인크래프트 플러그인 모음. 버튼을 누르면 바로 다운로드됩니다.">
+
+<!-- 아이콘(도토리) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 72'><path d='M12 30 Q12 68 32 68 Q52 68 52 30 Z' fill='%23C8893F'/><path d='M7 31 Q32 7 57 31 Q57 36 51 36 L13 36 Q7 36 7 31 Z' fill='%237A4A23'/><rect x='29' y='5' width='6' height='11' rx='3' fill='%235C3A1C'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --pine:#20302a;        /* 깊은 숲 배경 */
+    --pine-soft:#2a4036;
+    --cream:#f5eddd;       /* 종이/카드 */
+    --cream-dim:#e9dec6;
+    --cocoa:#3a2e21;       /* 본문 글자 */
+    --cocoa-soft:#6b5a45;
+    --leaf:#79b04a;        /* 다운로드(GO) */
+    --leaf-dark:#5f9438;
+    --amber:#e0a23b;       /* 강조/배지 */
+    --acorn:#8a5a30;
+    --shadow:rgba(20,30,25,.28);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Gowun Dodum",system-ui,sans-serif;
+    background:var(--pine);
+    color:var(--cocoa);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 22px}
+  a{color:inherit}
+
+  /* ---------- HERO : 서버 홍보 ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 50% -10%, #335043 0%, var(--pine) 60%);
+    color:var(--cream);
+    padding:74px 0 92px;
+    text-align:center;
+    border-bottom:6px solid var(--acorn);
+  }
+  .leaf{position:absolute;font-size:26px;opacity:.5;animation:fall linear infinite;will-change:transform}
+  @keyframes fall{
+    0%{transform:translateY(-40px) rotate(0deg)}
+    100%{transform:translateY(640px) rotate(320deg)}
+  }
+  .hero .mascot{width:96px;height:auto;margin:0 auto 14px;display:block;filter:drop-shadow(0 6px 10px var(--shadow))}
+  .hero h1{
+    font-family:"Jua",sans-serif;font-weight:400;
+    font-size:clamp(2.4rem,7vw,4rem);letter-spacing:.01em;line-height:1.1;
+    text-shadow:0 3px 0 rgba(0,0,0,.18);
+  }
+  .hero .tag{font-size:clamp(1rem,2.6vw,1.25rem);color:#e7dcc4;margin-top:14px}
+  .hero .tag b{color:var(--amber);font-weight:400}
+
+  .addr{
+    margin:26px auto 0;display:inline-flex;align-items:center;gap:10px;
+    background:rgba(245,237,221,.1);border:1.5px dashed rgba(245,237,221,.45);
+    padding:11px 16px;border-radius:14px;backdrop-filter:blur(2px);
+  }
+  .addr code{font-family:"Gowun Dodum",monospace;font-size:1.05rem;color:#fff;letter-spacing:.02em}
+  .ver-pill{
+    font-family:"Jua",sans-serif;font-size:.78rem;color:#3a2300;background:var(--leaf);
+    padding:3px 10px;border-radius:999px;white-space:nowrap
+  }
+  .copy{
+    border:none;cursor:pointer;background:var(--amber);color:#3a2300;
+    font-family:"Jua",sans-serif;font-size:.85rem;padding:6px 12px;border-radius:9px;
+    transition:transform .12s ease, background .2s;
+  }
+  .copy:hover{background:#f0b150;transform:translateY(-1px)}
+  .copy.done{background:var(--leaf);color:#fff}
+
+  .links{margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{
+    font-family:"Jua",sans-serif;text-decoration:none;
+    padding:11px 22px;border-radius:13px;font-size:1rem;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:transform .12s ease, box-shadow .2s;
+    box-shadow:0 4px 0 var(--shadow);
+  }
+  .btn:hover{transform:translateY(-2px)}
+  .btn:active{transform:translateY(1px);box-shadow:0 2px 0 var(--shadow)}
+  .btn-discord{background:#5865F2;color:#fff}
+  .btn-insta{background:linear-gradient(45deg,#feda75,#d62976 55%,#962fbf);color:#fff}
+
+  /* ---------- 플러그인 게시판 ---------- */
+  .board{background:var(--pine-soft);padding:60px 0 70px}
+  .sec-head{text-align:center;margin-bottom:8px}
+  .sec-head .eyebrow{
+    font-family:"Jua",sans-serif;color:var(--amber);font-size:.95rem;letter-spacing:.08em
+  }
+  .sec-head h2{
+    font-family:"Jua",sans-serif;font-weight:400;color:var(--cream);
+    font-size:clamp(1.7rem,4.5vw,2.4rem);margin-top:4px
+  }
+  .sec-head p{color:#cdbfa6;margin-top:8px;font-size:.98rem}
+
+  .grid{
+    margin-top:38px;display:grid;gap:24px;
+    grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  }
+  .card{
+    position:relative;background:var(--cream);border-radius:18px;
+    padding:22px 22px 24px;
+    box-shadow:0 10px 24px var(--shadow);
+    border:1px solid #00000010;
+    display:flex;flex-direction:column;
+    transition:transform .15s ease, box-shadow .2s;
+  }
+  .card:hover{transform:translateY(-5px);box-shadow:0 16px 30px var(--shadow)}
+  .pin{
+    position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+    width:30px;height:auto;filter:drop-shadow(0 3px 4px var(--shadow))
+  }
+  .thumb{
+    height:150px;border-radius:12px;margin:6px 0 16px;
+    background:var(--cream-dim);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
+    color:var(--cocoa-soft);font-size:.85rem;
+  }
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  .card h3{font-family:"Jua",sans-serif;font-weight:400;font-size:1.35rem;color:var(--cocoa)}
+  .badges{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 12px}
+  .badge{
+    font-size:.74rem;padding:3px 9px;border-radius:999px;
+    background:#e9dec6;color:var(--acorn);font-weight:bold
+  }
+  .badge.ver{background:#dfeccb;color:var(--leaf-dark)}
+  .desc{color:var(--cocoa-soft);font-size:.93rem;flex:1;margin-bottom:18px}
+
+  .dl{
+    text-decoration:none;text-align:center;
+    background:var(--leaf);color:#fff;font-family:"Jua",sans-serif;font-size:1.1rem;
+    padding:13px;border-radius:13px;display:flex;align-items:center;justify-content:center;gap:9px;
+    box-shadow:0 4px 0 var(--leaf-dark);transition:transform .12s, box-shadow .2s, background .2s;
+  }
+  .dl:hover{background:#84bd52;transform:translateY(-2px)}
+  .dl:active{transform:translateY(2px);box-shadow:0 1px 0 var(--leaf-dark)}
+  .dl svg{width:18px;height:18px}
+  .dl-note{text-align:center;font-size:.78rem;color:var(--cocoa-soft);margin-top:9px}
+
+  .empty{grid-column:1/-1;text-align:center;color:#cdbfa6;padding:30px;font-size:.95rem}
+
+  /* ---------- 설치 안내 ---------- */
+  .install{background:var(--cream);padding:58px 0 64px}
+  .install h2{
+    font-family:"Jua",sans-serif;font-weight:400;text-align:center;
+    font-size:clamp(1.6rem,4vw,2.2rem);color:var(--cocoa)
+  }
+  .install .sub{text-align:center;color:var(--cocoa-soft);margin-top:8px}
+  .steps{margin-top:36px;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .step{background:#fff;border-radius:16px;padding:24px;border:1px solid #00000010;box-shadow:0 6px 14px var(--shadow)}
+  .step .n{
+    font-family:"Jua",sans-serif;width:42px;height:42px;border-radius:50%;
+    background:var(--amber);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:1.3rem;margin-bottom:14px
+  }
+  .step h4{font-family:"Jua",sans-serif;font-weight:400;font-size:1.15rem;color:var(--cocoa);margin-bottom:6px}
+  .step p{color:var(--cocoa-soft);font-size:.92rem}
+  .step code{background:#f0e7d4;padding:2px 7px;border-radius:6px;font-size:.88em}
+
+  /* ---------- 푸터 ---------- */
+  footer{background:var(--pine);color:#bcae95;text-align:center;padding:34px 22px}
+  footer .acorn{font-size:1.4rem}
+  footer p{font-size:.88rem;margin-top:6px}
+
+  @media (prefers-reduced-motion:reduce){
+    .leaf{animation:none;display:none}
+    *{scroll-behavior:auto}
+  }
+  @media (max-width:560px){
+    .hero{padding:54px 0 70px}
+    .links{flex-direction:column;align-items:stretch}
+    .btn{justify-content:center}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== 서버 홍보 ===================== -->
+<header class="hero">
+  <div id="leaves" aria-hidden="true"></div>
+  <div class="wrap">
+    <svg class="mascot" viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 30 Q12 68 32 68 Q52 68 52 30 Z" fill="#C8893F"/>
+      <path d="M12 30 Q12 68 32 68 Q34 68 34 30 Z" fill="#b9772f" opacity=".5"/>
+      <path d="M7 31 Q32 7 57 31 Q57 36 51 36 L13 36 Q7 36 7 31 Z" fill="#7A4A23"/>
+      <ellipse cx="24" cy="46" rx="3" ry="4" fill="#fff" opacity=".55"/>
+      <rect x="29" y="5" width="6" height="11" rx="3" fill="#5C3A1C"/>
+    </svg>
+    <h1 id="serverName">도토리마을</h1>
+    <p class="tag" id="tagline">함께 농사짓고 쉬어가는 <b>힐링 마인크래프트 서버</b></p>
+
+    <div class="addr">
+      <code id="serverAddr">mydotori.kr</code>
+      <span class="ver-pill" id="serverVer">1.21.8</span>
+      <button class="copy" id="copyBtn" type="button">주소 복사</button>
+    </div>
+
+    <div class="links" id="socialLinks"></div>
+  </div>
+</header>
+
+<!-- ===================== 플러그인 모음 ===================== -->
+<main>
+<section class="board">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">PLUGIN COLLECTION</div>
+      <h2>도토리마을 플러그인 모음</h2>
+      <p>인스타그램에서 의뢰받아 제작한 플러그인들이에요. 버튼을 누르면 바로 받아집니다.</p>
+    </div>
+    <div class="grid" id="pluginGrid"></div>
+  </div>
+</section>
+
+<!-- ===================== 설치 안내 ===================== -->
+<section class="install" id="how">
+  <div class="wrap">
+    <h2>이렇게 설치하세요</h2>
+    <p class="sub">마인크래프트를 잘 몰라도 괜찮아요. 딱 3단계면 끝납니다.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <h4>다운로드</h4>
+        <p>원하는 플러그인의 <b>다운로드</b> 버튼을 누르면 <code>.jar</code> 파일이 저장돼요.</p>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <h4>폴더에 넣기</h4>
+        <p>받은 파일을 서버 폴더 안 <code>plugins</code> 폴더에 그대로 넣어주세요.</p>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <h4>서버 재시작</h4>
+        <p>서버를 껐다 켜면 끝! 플러그인이 자동으로 켜집니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="acorn">🌰</div>
+  <p id="footerText">© 도토리마을 · Minecraft 1.21.8</p>
+</footer>
+
+<script>
+/* =====================================================================
+   ⚙️ 여기만 수정하세요  (CONFIG)
+   ===================================================================== */
+const CONFIG = {
+  serverName : "도토리마을",
+  tagline    : "함께 농사짓고 쉬어가는 <b>힐링 마인크래프트 서버</b>",
+  serverAddr : "mydotori.kr",               // 도토리마을 서버 주소
+  version    : "1.21.8",                     // 마인크래프트 버전
+  discordUrl : "https://discord.gg/000000", // ← 디스코드 초대 링크
+  instagramUrl:"https://instagram.com/000000", // ← 인스타 주소
+
+  // ↓ 다운로드 링크를 자동으로 만들 때 쓰는 GitHub 정보
+  githubUser : "your-username",   // ← 본인 깃허브 아이디
+  githubRepo : "plugins",         // ← 저장소 이름
+};
+
+/* =====================================================================
+   📦 플러그인 목록  (새 플러그인은 이 배열에 한 칸씩 추가)
+   - tag  : Release 만들 때 정한 태그 (예: minemonster-v1.0.0)
+   - file : 업로드한 .jar 파일 이름   (예: MineMonster-1.0.0.jar)
+   - image: 미리보기 이미지 주소 (인스타 캡처 등). 없으면 "" 로 두세요.
+   ===================================================================== */
+const PLUGINS = [
+  {
+    name : "MineMonster",
+    desc : "어떤 블록이든 캐면 랜덤 몬스터가 튀어나오는 플러그인! 보스는 자동 제외, 명령어로 ON/OFF.",
+    mc   : "1.21.x",
+    version : "1.0.0",
+    tag  : "minemonster-v1.0.0",
+    file : "MineMonster-1.0.0.jar",
+    image: ""
+  },
+  // {
+  //   name:"플러그인이름", desc:"설명", mc:"1.21.x", version:"1.0.0",
+  //   tag:"태그", file:"파일이름.jar", image:""
+  // },
+];
+
+/* ===================== 아래는 건드릴 필요 없음 ===================== */
+const ACORN = `<svg class="pin" viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg"><path d="M12 30 Q12 68 32 68 Q52 68 52 30 Z" fill="#C8893F"/><path d="M7 31 Q32 7 57 31 Q57 36 51 36 L13 36 Q7 36 7 31 Z" fill="#7A4A23"/><rect x="29" y="5" width="6" height="11" rx="3" fill="#5C3A1C"/></svg>`;
+const DLICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>`;
+
+function dlUrl(p){
+  return `https://github.com/${CONFIG.githubUser}/${CONFIG.githubRepo}/releases/download/${p.tag}/${p.file}`;
+}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* 헤더/푸터 채우기 */
+document.getElementById('serverName').textContent = CONFIG.serverName;
+document.getElementById('tagline').innerHTML = CONFIG.tagline;
+document.getElementById('serverAddr').textContent = CONFIG.serverAddr;
+document.getElementById('serverVer').textContent = CONFIG.version;
+document.getElementById('footerText').innerHTML = `© ${esc(CONFIG.serverName)} · Minecraft ${esc(CONFIG.version)}`;
+document.getElementById('socialLinks').innerHTML =
+  `<a class="btn btn-discord" href="${esc(CONFIG.discordUrl)}" target="_blank" rel="noopener">💬 디스코드</a>
+   <a class="btn btn-insta" href="${esc(CONFIG.instagramUrl)}" target="_blank" rel="noopener">📷 인스타그램</a>`;
+
+/* 주소 복사 */
+const copyBtn = document.getElementById('copyBtn');
+copyBtn.addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(CONFIG.serverAddr);
+    copyBtn.textContent='복사됨!'; copyBtn.classList.add('done');
+    setTimeout(()=>{copyBtn.textContent='주소 복사';copyBtn.classList.remove('done');},1600);
+  }catch(e){ copyBtn.textContent='직접 복사하세요'; }
+});
+
+/* 플러그인 카드 렌더 */
+const grid = document.getElementById('pluginGrid');
+if(!PLUGINS.length){
+  grid.innerHTML = `<div class="empty">곧 새로운 플러그인이 올라올 예정이에요 🌱</div>`;
+}else{
+  grid.innerHTML = PLUGINS.map(p=>{
+    const thumb = p.image
+      ? `<div class="thumb"><img src="${esc(p.image)}" alt="${esc(p.name)} 미리보기" loading="lazy"></div>`
+      : `<div class="thumb">🌰 미리보기 준비중</div>`;
+    return `
+    <article class="card">
+      ${ACORN}
+      ${thumb}
+      <h3>${esc(p.name)}</h3>
+      <div class="badges">
+        <span class="badge">⛏ ${esc(p.mc)}</span>
+        <span class="badge ver">v${esc(p.version)}</span>
+      </div>
+      <p class="desc">${esc(p.desc)}</p>
+      <a class="dl" href="${esc(dlUrl(p))}" rel="noopener">${DLICON} 다운로드</a>
+      <p class="dl-note">버튼을 누르면 파일이 바로 저장돼요</p>
+    </article>`;
+  }).join('');
+}
+
+/* 히어로 나뭇잎 떨어지는 효과 */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const box=document.getElementById('leaves'), kinds=['🍃','🍂','🌿'];
+  for(let i=0;i<9;i++){
+    const s=document.createElement('span');
+    s.className='leaf'; s.textContent=kinds[i%kinds.length];
+    s.style.left=(Math.random()*100)+'%';
+    s.style.animationDuration=(7+Math.random()*6)+'s';
+    s.style.animationDelay=(-Math.random()*10)+'s';
+    s.style.fontSize=(18+Math.random()*16)+'px';
+    box.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
